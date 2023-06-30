@@ -31,10 +31,9 @@ end
 # Construct $PATH
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # main PATH
-set PATH $PATH /bin /usr/bin /sbin /usr/sbin /usr/local/bin ^ /dev/null
-# go stuff
-set PATH {$HOME}/go/bin $PATH ^ /dev/null
+set PATH $PATH /bin /usr/bin /sbin /usr/sbin /usr/local/bin /usr/local/go/bin ^ /dev/null
 # user-level overrides
+set PATH {$HOME}/go/bin $PATH ^ /dev/null
 set PATH {$HOME}/bin/ $PATH ^ /dev/null
 
 # Go paths
@@ -42,11 +41,6 @@ set GOPATH {$HOME}/go
 
 # Specific program overrides
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-grep -qE "(Microsoft|WSL)" /proc/version > /dev/null
-if test $status -ne 0
-else
-    alias vagrant="/mnt/c/HashiCorp/Vagrant/bin/vagrant.exe"
-end
 
 # X11 settings
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
