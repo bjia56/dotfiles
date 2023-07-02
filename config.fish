@@ -35,6 +35,7 @@ set PATH $PATH /bin /usr/bin /sbin /usr/sbin /usr/local/bin /usr/local/go/bin ^ 
 # user-level overrides
 set PATH {$HOME}/go/bin $PATH ^ /dev/null
 set PATH {$HOME}/bin/ $PATH ^ /dev/null
+set PATH {$HOME}/.local/bin $PATH ^ /dev/null
 
 # Go paths
 set GOPATH {$HOME}/go
