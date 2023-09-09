@@ -36,9 +36,13 @@ set PATH $PATH /bin /usr/bin /sbin /usr/sbin /usr/local/bin /usr/local/go/bin ^ 
 set PATH {$HOME}/go/bin $PATH ^ /dev/null
 set PATH {$HOME}/bin/ $PATH ^ /dev/null
 set PATH {$HOME}/.local/bin $PATH ^ /dev/null
+set PATH {$HOME}/.modular/pkg/packages.modular.com_mojo/bin $PATH ^ /dev/null
 
 # Go paths
 set GOPATH {$HOME}/go
+
+# Mojo
+set MODULAR_HOME {$HOME}/.modular
 
 # Specific program overrides
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -48,7 +52,7 @@ set GOPATH {$HOME}/go
 grep -qE "(Microsoft|WSL)" /proc/version > /dev/null
 if test $status -ne 0
 else
-    set -x DISPLAY localhost:0.0
+    set -x DISPLAY (ip route|awk '/^default/{print $3}'):0.0
 end
 
 # Customize ls
