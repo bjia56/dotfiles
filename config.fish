@@ -38,22 +38,14 @@ set PATH {$HOME}/bin/ $PATH ^ /dev/null
 set PATH {$HOME}/.local/bin $PATH ^ /dev/null
 set PATH {$HOME}/.modular/pkg/packages.modular.com_mojo/bin $PATH ^ /dev/null
 
+# Specific program overrides
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
 # Go paths
 set GOPATH {$HOME}/go
 
 # Mojo
 set MODULAR_HOME {$HOME}/.modular
-
-# Specific program overrides
-# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-# X11 settings
-# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-grep -qE "(Microsoft|WSL)" /proc/version > /dev/null
-if test $status -ne 0
-else
-    set -x DISPLAY (ip route|awk '/^default/{print $3}'):0.0
-end
 
 # Customize ls
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -65,6 +57,39 @@ alias ls="ls --color=always"
 function topme
     type htop > /dev/null ^ /dev/null; and htop -u (whoami); or top -U (whoami)
 end
+
+function unset
+    for var in $argv
+        set -e $var
+    end
+end
+
+# OS-specific settings
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+if test (uname) = "Darwin"
+	# Import zshrc
+	eval "$(source ~/.zshrc)"
+
+	# git
+	ssh-add --apple-load-keychain > /dev/null 2>&1
+end
+
+grep -qE "(Microsoft|WSL)" /proc/version > /dev/null
+if test $status -ne 0
+else
+	# X11 settings
+    set -x DISPLAY (ip route|awk '/^default/{print $3}'):0.0
+end
+
+# X11 settings
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+grep -qE "(Microsoft|WSL)" /proc/version > /dev/null
+if test $status -ne 0
+else
+    set -x DISPLAY (ip route|awk '/^default/{print $3}'):0.0
+end
+
+
 
 # Greeting
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
