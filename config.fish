@@ -114,7 +114,7 @@ end
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 if test (uname) = "Darwin"
 	# Import zshrc
-	eval "$(source ~/.zshrc)"
+	eval "(source ~/.zshrc)"
 
 	# git
 	ssh-add --apple-load-keychain > /dev/null 2>&1
