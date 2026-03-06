@@ -9,7 +9,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'ntpeters/vim-better-whitespace'
-Plugin 'fatih/vim-go'
+"Plugin 'fatih/vim-go'
 
 " all of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -25,6 +25,7 @@ set ruler
 set number
 set backspace=indent,eol,start
 set visualbell
+set t_vb=
 set background=dark
 set hlsearch
 
