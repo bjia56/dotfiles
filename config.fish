@@ -40,6 +40,9 @@ set PATH {$HOME}/.modular/pkg/packages.modular.com_mojo/bin $PATH ^ /dev/null
 set PATH $PATH {$HOME}/bin/cosmocc/bin ^ /dev/null
 source "$HOME/.cargo/env.fish"
 
+# Specific program overrides
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
 # Go paths
 set GOPATH {$HOME}/go
 
@@ -78,6 +81,9 @@ else
     set -x DISPLAY (ip route|awk '/^default/{print $3}'):0.0
 end
 
+# dotnet max memory
+set -x DOTNET_GCHeapHardLimit 0x400000000
+
 # Browser
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 grep -qE "(Microsoft|WSL)" /proc/version > /dev/null
@@ -97,6 +103,39 @@ alias ls="ls --color=always"
 function topme
     type htop > /dev/null ^ /dev/null; and htop -u (whoami); or top -U (whoami)
 end
+
+function unset
+    for var in $argv
+        set -e $var
+    end
+end
+
+# OS-specific settings
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+if test (uname) = "Darwin"
+	# Import zshrc
+	eval "$(source ~/.zshrc)"
+
+	# git
+	ssh-add --apple-load-keychain > /dev/null 2>&1
+end
+
+grep -qE "(Microsoft|WSL)" /proc/version > /dev/null
+if test $status -ne 0
+else
+	# X11 settings
+    set -x DISPLAY (ip route|awk '/^default/{print $3}'):0.0
+end
+
+# X11 settings
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+grep -qE "(Microsoft|WSL)" /proc/version > /dev/null
+if test $status -ne 0
+else
+    set -x DISPLAY (ip route|awk '/^default/{print $3}'):0.0
+end
+
+
 
 # Greeting
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
