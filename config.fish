@@ -37,12 +37,35 @@ set PATH {$HOME}/go/bin $PATH ^ /dev/null
 set PATH {$HOME}/bin/ $PATH ^ /dev/null
 set PATH {$HOME}/.local/bin $PATH ^ /dev/null
 set PATH {$HOME}/.modular/pkg/packages.modular.com_mojo/bin $PATH ^ /dev/null
+set PATH $PATH {$HOME}/bin/cosmocc/bin ^ /dev/null
+source "$HOME/.cargo/env.fish"
 
 # Go paths
 set GOPATH {$HOME}/go
 
 # Mojo
 set MODULAR_HOME {$HOME}/.modular
+
+# brew
+if test -d /home/linuxbrew/.linuxbrew
+      # Homebrew is installed on Linux
+
+      set -gx HOMEBREW_PREFIX "/home/linuxbrew/.linuxbrew"
+      set -gx HOMEBREW_CELLAR "/home/linuxbrew/.linuxbrew/Cellar"
+      set -gx HOMEBREW_REPOSITORY "/home/linuxbrew/.linuxbrew/Homebrew"
+      set -gx PATH "/home/linuxbrew/.linuxbrew/bin" "/home/linuxbrew/.linuxbrew/sbin" $PATH
+      set -q MANPATH; or set MANPATH ''
+      set -gx MANPATH "/home/linuxbrew/.linuxbrew/share/man" $MANPATH
+      set -q INFOPATH; or set INFOPATH ''
+      set -gx INFOPATH "/home/linuxbrew/.linuxbrew/share/info" $INFOPATH
+
+      # Homebrew asked for this in order to `brew upgrade`
+      set -gx HOMEBREW_GITHUB_API_TOKEN {api token goes here, don't remember where that's created}
+else if test -d /opt/homebrew
+      # Homebrew is installed on MacOS
+
+      /opt/homebrew/bin/brew shellenv | source
+end
 
 # Specific program overrides
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -54,6 +77,15 @@ if test $status -ne 0
 else
     set -x DISPLAY (ip route|awk '/^default/{print $3}'):0.0
 end
+
+# Browser
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+grep -qE "(Microsoft|WSL)" /proc/version > /dev/null
+if test $status -ne 0
+else
+    set -x BROWSER "/mnt/c/Program Files/Google/Chrome/Application/chrome.exe"
+end
+
 
 # Customize ls
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
